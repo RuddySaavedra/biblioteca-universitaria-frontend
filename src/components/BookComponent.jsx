@@ -7,12 +7,14 @@ const BookComponent = () => {
     const [subject, setSubject] = useState("");
     const [isbn, setIsbn] = useState("");
     const [publicationYear, setPublicationYear] = useState("");
+    const [color, setColor] = useState("");
 
     const [errors, setErrors] = useState({
         title: "",
         subject: "",
         isbn: "",
         publicationYear: "",
+        color: "",
     });
     const navigate = useNavigate();
 
@@ -25,6 +27,7 @@ const BookComponent = () => {
                 setSubject(response.data.subject);
                 setIsbn(response.data.isbn);
                 setPublicationYear(response.data.publicationYear);
+                setColor(response.data.color);
             })
         }
     }, [id]);
@@ -61,6 +64,13 @@ const BookComponent = () => {
             valid = false;
         }
 
+        if (color.trim()) {
+            errorsCopy.color = '';
+        } else {
+            errorsCopy.color = 'Color required';
+            valid = false;
+        }
+
         setErrors(errorsCopy);
         return valid;
     }
@@ -68,7 +78,7 @@ const BookComponent = () => {
     function saveOrUpdateBook(event) {
         event.preventDefault();
         if (validateForm()) {
-            const book = {title, subject, isbn, publicationYear};
+            const book = {title, subject, isbn, publicationYear, color};
             if (id) {
                 updateBook(id, book).then(response => {
                     console.log(response.data);
@@ -153,6 +163,18 @@ const BookComponent = () => {
                                 onChange={(e) => setPublicationYear(e.target.value)}
                             />
                             {errors.publicationYear && <div className="invalid-feedback">{errors.publicationYear}</div>}
+                        </div>
+                        <div className="form-group mb-2">
+                            <label className="form-label">COLOR</label>
+                            <input
+                                type="text"
+                                name="color"
+                                value={color}
+                                placeholder="Enter COLOR"
+                                className={`form-control ${errors.color ? errors.color : ""}`}
+                                onChange={(e) => setColor(e.target.value)}
+                            />
+                            {errors.color && <div className="invalid-feedback">{errors.color}</div>}
                         </div>
 
                         <button type="submit" className="btn btn-success" onClick={saveOrUpdateBook}>Submit</button>
