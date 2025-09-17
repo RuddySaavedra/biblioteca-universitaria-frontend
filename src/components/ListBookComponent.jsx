@@ -47,7 +47,6 @@ const BookListComponent = () => {
                     <th>Subject</th>
                     <th>ISBN</th>
                     <th>Publication Year</th>
-                    <th>Color</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -59,7 +58,6 @@ const BookListComponent = () => {
                         <td>{book.subject}</td>
                         <td>{book.isbn}</td>
                         <td>{book.publicationYear}</td>
-                        <td>{book.color}</td>
                         <td>
                             <button className='btn btn-info' onClick={()=>updateBook(book.id)}>Update</button>
                             <button className='btn btn-danger' onClick={()=>removeBook(book.id)} style={{marginLeft:'10px'}}>Delete</button>
