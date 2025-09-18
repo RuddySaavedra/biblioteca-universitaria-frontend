@@ -7,10 +7,6 @@ const BookComponent = () => {
     const [subject, setSubject] = useState("");
     const [isbn, setIsbn] = useState("");
     const [publicationYear, setPublicationYear] = useState("");
-
-
-
-
     const [errors, setErrors] = useState({
         title: "",
         subject: "",
