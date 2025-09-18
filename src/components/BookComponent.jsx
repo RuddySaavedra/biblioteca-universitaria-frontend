@@ -7,7 +7,6 @@ const BookComponent = () => {
     const [subject, setSubject] = useState("");
     const [isbn, setIsbn] = useState("");
     const [publicationYear, setPublicationYear] = useState("");
-
     const [errors, setErrors] = useState({
         title: "",
         subject: "",
@@ -15,7 +14,6 @@ const BookComponent = () => {
         publicationYear: "",
     });
     const navigate = useNavigate();
-
     const {id} = useParams();
 
     useEffect(()=>{
@@ -55,7 +53,14 @@ const BookComponent = () => {
         }
 
         if (publicationYear.trim()) {
-            errorsCopy.publicationYear = '';
+            const year = Number(publicationYear);
+
+            if (!isNaN(year) && year >= 1400 && year <= new Date().getFullYear()) {
+                errorsCopy.publicationYear = '';
+            } else {
+                errorsCopy.publicationYear = 'Enter a valid year';
+                valid = false;
+            }
         } else {
             errorsCopy.publicationYear = 'Publication Year required';
             valid = false;
@@ -84,10 +89,8 @@ const BookComponent = () => {
                     console.log(error);
                 })
             }
-
         }
     }
-
 
     function pageTitle() {
         if (id) {
@@ -114,7 +117,7 @@ const BookComponent = () => {
                                 name="title"
                                 value={title}
                                 placeholder="Enter Title"
-                                className={`form-control ${errors.title ? errors.title : ""}`}
+                                className={`form-control ${errors.title ? 'is-invalid' : ""}`}
                                 onChange={(e) => setTitle(e.target.value)}
                             />
                             {errors.title && <div className="invalid-feedback">{errors.title}</div>}
@@ -126,7 +129,7 @@ const BookComponent = () => {
                                 name="subject"
                                 value={subject}
                                 placeholder="Enter Subject"
-                                className={`form-control ${errors.subject ? errors.subject : ""}`}
+                                className={`form-control ${errors.subject ? 'is-invalid' : ""}`}
                                 onChange={(e) => setSubject(e.target.value)}
                             />
                             {errors.subject && <div className="invalid-feedback">{errors.subject}</div>}
@@ -138,7 +141,7 @@ const BookComponent = () => {
                                 name="isbn"
                                 value={isbn}
                                 placeholder="Enter ISBN"
-                                className={`form-control ${errors.isbn ? errors.isbn : ""}`}
+                                className={`form-control ${errors.isbn ? 'is-invalid' : ""}`}
                                 onChange={(e) => setIsbn(e.target.value)}
                             />
                             {errors.isbn && <div className="invalid-feedback">{errors.isbn}</div>}
@@ -149,12 +152,11 @@ const BookComponent = () => {
                                 type="number"
                                 name="publicationYear"
                                 value={publicationYear}
-                                className={`form-control ${errors.publicationYear ? errors.publicationYear : ""}`}
+                                className={`form-control ${errors.publicationYear ? 'is-invalid' : ""}`}
                                 onChange={(e) => setPublicationYear(e.target.value)}
                             />
                             {errors.publicationYear && <div className="invalid-feedback">{errors.publicationYear}</div>}
                         </div>
-
                         <button type="submit" className="btn btn-success" onClick={saveOrUpdateBook}>Submit</button>
                     </form>
                 </div>
