@@ -133,7 +133,7 @@ const BookComponent = () => {
                         </div>
                         <div className="form-group mb-2">
                             <label className="form-label">ISBN</label>
-                            <input
+                            <inp
                                 type="text"
                                 name="isbn"
                                 value={isbn}

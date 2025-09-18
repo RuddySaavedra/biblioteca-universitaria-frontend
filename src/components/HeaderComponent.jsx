@@ -14,12 +14,18 @@ const HeaderComponent = () => {
                             <li className="nav-item">
                                 <NavLink className="nav-link" to="/books">Books</NavLink>
                             </li>
+
+                            {/* Link a Authors */}
                             <li className="nav-item">
                                 <NavLink className="nav-link" to="/authors">Authors</NavLink>
                             </li>
+
+                            {/* Link a Students */}
                             <li className="nav-item">
                                 <NavLink className="nav-link" to="/students">Students</NavLink>
                             </li>
+
+                            {/* Link a Inventories */}
                             <li className="nav-item">
                                 <NavLink className="nav-link" to="/inventories">Inventories</NavLink>
                             </li>
