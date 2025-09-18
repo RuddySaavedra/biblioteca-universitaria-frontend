@@ -5,9 +5,11 @@ import { useNavigate, useParams } from "react-router-dom";
 const AuthorComponent = () => {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
+    const [address, setAddress] = useState("");
     const [errors, setErrors] = useState({
         firstName: "",
         lastName: "",
+        address: "",
     });
     const navigate = useNavigate();
     const {id} = useParams();
@@ -17,6 +19,7 @@ const AuthorComponent = () => {
             getAuthor(id).then(response => {
                 setFirstName(response.data.firstName);
                 setLastName(response.data.lastName);
+                setAddress(response.data.address);
             })
         }
     }, [id]);
@@ -39,6 +42,13 @@ const AuthorComponent = () => {
             valid = false;
         }
 
+        if (address.trim()) {
+            errorsCopy.address = '';
+        } else {
+            errorsCopy.address = 'Address required';
+            valid = false;
+        }
+
         setErrors(errorsCopy);
         return valid;
     }
@@ -46,7 +56,7 @@ const AuthorComponent = () => {
     function saveOrUpdateAuthor(event) {
         event.preventDefault();
         if (validateform()) {
-            const author = {firstName, lastName};
+            const author = {firstName, lastName, address};
             if (id) {
                 updateAuthor(id, author).then(response => {
                     console.log(response.data);
@@ -106,6 +116,18 @@ const AuthorComponent = () => {
                                 onChange={(e) => setLastName(e.target.value)}
                             />
                             {errors.lastName && <div className="invalid-feedback">{errors.lastName}</div>}
+                        </div>
+                        <div className="form-group mb-3">
+                            <label>Address</label>
+                            <input
+                                type="text"
+                                name="address"
+                                value={address}
+                                placeholder="Enter address"
+                                className={`form-control ${errors.address ? 'is-invalid' : ""}`}
+                                onChange={(e) => setAddress(e.target.value)}
+                            />
+                            {errors.address && <div className="invalid-feedback">{errors.address}</div>}
                         </div>
                         <button type="submit" className="btn btn-success" onClick={saveOrUpdateAuthor}>Submit</button>
                     </form>
