@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
-import { addInventory, getInventory, updateInventory } from "../services/InventoryService.js";
+import {useEffect, useState} from "react";
+import {addInventory, getInventory, updateInventory} from "../services/InventoryService.js";
 import { useNavigate, useParams } from "react-router-dom";
-import {addBook, updateBook} from "../services/BookService.js";
 
 const InventoryComponent = () => {
     // Campos del backend: totalCopies, availableCopies, minThreshold
