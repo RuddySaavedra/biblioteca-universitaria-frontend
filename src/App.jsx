@@ -10,6 +10,8 @@ import {BrowserRouter, Routes, Route} from "react-router-dom";
 // imports de Student
 import ListStudentComponent from "./components/ListStudentComponent.jsx";
 import StudentComponent from "./components/StudentComponent.jsx";
+import ListInventoryComponent from "./components/ListInventoryComponent.jsx";
+import InventoryComponent from "./components/InventoryComponent.jsx";
 
 function App() {
     return (
@@ -33,6 +35,11 @@ function App() {
                     <Route path="/students" element={<ListStudentComponent />} />
                     <Route path="/add-student" element={<StudentComponent />} />
                     <Route path="/edit-student/:id" element={<StudentComponent />} />
+
+                    {/* Rutas de Inventory */}
+                    <Route path="/inventories" element={<ListInventoryComponent />} />
+                    <Route path="/add-inventory" element={<InventoryComponent />} />
+                    <Route path="/edit-inventory/:id" element={<InventoryComponent />} />
                 </Routes>
             </BrowserRouter>
             <FooterComponent/>

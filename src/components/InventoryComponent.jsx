@@ -4,9 +4,9 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const InventoryComponent = () => {
     // Campos del backend: totalCopies, availableCopies, minThreshold
-    const [totalCopies, settotalCopies] = useState("");
-    const [availableCopies, setavailableCopies] = useState("");
-    const [minThreshold, setminThreshold] = useState("");
+    const [totalCopies, setTotalCopies] = useState(0);
+    const [availableCopies, setAvailableCopies] = useState(0);
+    const [minThreshold, setMinThreshold] = useState(0);
 
     const [errors, setErrors] = useState({
         totalCopies: "",
@@ -21,26 +21,42 @@ const InventoryComponent = () => {
         if (id) {
             getInventory(id).then((res) => {
                 const s = res.data;
-                settotalCopies(s.totalCopies ?? "");
-                setavailableCopies(s.availableCopies ?? "");
-                setminThreshold(s.minThreshold ?? "");
+                setTotalCopies(s.totalCopies ?? 0);
+                setAvailableCopies(s.availableCopies ?? 0);
+                setMinThreshold(s.minThreshold ?? 0);
             });
         }
     }, [id]);
 
     function validateForm() {
         let valid = true;
-        const copy = { ...errors };
+        const errorsCopy = { ...errors };
 
-        if (totalCopies.trim()) copy.totalCopies = ""; else { copy.totalCopies = "Copies required"; valid = false; }
+        // totalCopies
+        if (totalCopies <= 0) {
+            errorsCopy.totalCopies = "Total copies must be greater than 0";
+            valid = false;
+        }
 
-       if (availableCopies.trim() && /^\S+@\S+\.\S+$/.test(availableCopies)) copy.availableCopies = "";
-        else { copy.availableCopies = "Valid Copies required"; valid = false; }
+        // availableCopies
+        if (availableCopies < 0) {
+            errorsCopy.availableCopies = "Available copies cannot be negative";
+            valid = false;
+        } else if (availableCopies > totalCopies) {
+            errorsCopy.availableCopies = "Available copies cannot exceed total copies";
+            valid = false;
+        }
 
-        if (minThreshold.trim()) copy.minThreshold = "";
-        else { copy.minThreshold = "Minimun # required"; valid = false; }
+        // minThreshold
+        if (minThreshold < 0) {
+            errorsCopy.minThreshold = "Minimum threshold cannot be negative";
+            valid = false;
+        } else if (minThreshold > totalCopies) {
+            errorsCopy.minThreshold = "Minimum threshold cannot exceed total copies";
+            valid = false;
+        }
 
-        setErrors(copy);
+        setErrors(errorsCopy);
         return valid;
     }
 
@@ -88,11 +104,11 @@ const InventoryComponent = () => {
                             <label className="form-label">Total Copies</label>
                             <input
                                 type="number"
-                                name="total copies"
+                                name="totalCopies"
                                 value={totalCopies}
                                 placeholder="Enter Total Copies"
                                 className={`form-control ${errors.totalCopies ? 'is-invalid' : ""}`}
-                                onChange={(e) => settotalCopies(e.target.value)}
+                                onChange={(e) => setTotalCopies(Number(e.target.value))}
                             />
                             {errors.totalCopies && <div className="invalid-feedback">{errors.totalCopies}</div>}
                         </div>
@@ -104,7 +120,7 @@ const InventoryComponent = () => {
                                 value={availableCopies}
                                 placeholder="Enter Available Copies"
                                 className={`form-control ${errors.availableCopies ? 'is-invalid' : ""}`}
-                                onChange={(e) => setavailableCopies(e.target.value)}
+                                onChange={(e) => setAvailableCopies(Number(e.target.value))}
                             />
                             {errors.availableCopies && <div className="invalid-feedback">{errors.availableCopies}</div>}
                         </div>
@@ -116,12 +132,10 @@ const InventoryComponent = () => {
                                 value={minThreshold}
                                 placeholder="Enter Minimum Required"
                                 className={`form-control ${errors.minThreshold ? 'is-invalid' : ""}`}
-                                onChange={(e) => setminThreshold(e.target.value)}
+                                onChange={(e) => setMinThreshold(Number(e.target.value))}
                             />
                             {errors.minThreshold && <div className="invalid-feedback">{errors.minThreshold}</div>}
                         </div>
-                        //es el boton submit, llama a saveorupdatebook responsable de enviar,
-                        //validar y luego agregar o actualizar un libro
                         <button type="submit" className="btn btn-success" onClick={saveOrUpdateInventory}>Submit</button>
                     </form>
                 </div>

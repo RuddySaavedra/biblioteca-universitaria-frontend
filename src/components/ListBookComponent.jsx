@@ -6,7 +6,7 @@ const BookListComponent = () => {
     const [books, setBooks] = useState([]);
     const navigate = useNavigate();
 
-    function ListAllEmployees()
+    function ListAllBooks()
     {
         getAllBooks().then((response) => {
             setBooks(response.data);
@@ -27,12 +27,12 @@ const BookListComponent = () => {
     function removeBook(id) {
         deleteBook(id).then((response) => {
             console.log(response);
-            ListAllEmployees();
+            ListAllBooks();
         })
     }
 
     useEffect(() => {
-        ListAllEmployees();
+        ListAllBooks();
     });
 
     return (
