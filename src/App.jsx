@@ -7,27 +7,37 @@ import ListAuthorComponent from "./components/ListAuthorComponent.jsx";
 import AuthorComponent from "./components/AuthorComponent.jsx";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 
-function App() {
-  return (
-    <>
-        <BrowserRouter>
-            <HeaderComponent/>
-            <Routes>
-                <Route path="/" element={<ListBookComponent/>}/>
-                {/* Rutas de Book */}
-                <Route path="/books" element={<ListBookComponent/>}/>
-                <Route path="/add-book" element={<BookComponent/>}/>
-                <Route path="/edit-book/:id" element={<BookComponent/>}/>
+// imports de Student
+import ListStudentComponent from "./components/ListStudentComponent.jsx";
+import StudentComponent from "./components/StudentComponent.jsx";
 
-                {/* Rutas de Author */}
-                <Route path="/authors" element={<ListAuthorComponent />} />
-                <Route path="/add-author" element={<AuthorComponent />} />
-                <Route path="/edit-author/:id" element={<AuthorComponent />} />
-            </Routes>
-        </BrowserRouter>
-        <FooterComponent/>
-    </>
-  )
+function App() {
+    return (
+        <>
+            <BrowserRouter>
+                <HeaderComponent/>
+                <Routes>
+                    <Route path="/" element={<ListBookComponent/>}/>
+
+                    {/* Rutas de Book */}
+                    <Route path="/books" element={<ListBookComponent/>}/>
+                    <Route path="/add-book" element={<BookComponent/>}/>
+                    <Route path="/edit-book/:id" element={<BookComponent/>}/>
+
+                    {/* Rutas de Author */}
+                    <Route path="/authors" element={<ListAuthorComponent />} />
+                    <Route path="/add-author" element={<AuthorComponent />} />
+                    <Route path="/edit-author/:id" element={<AuthorComponent />} />
+
+                    {/* Rutas de Student */}
+                    <Route path="/students" element={<ListStudentComponent />} />
+                    <Route path="/add-student" element={<StudentComponent />} />
+                    <Route path="/edit-student/:id" element={<StudentComponent />} />
+                </Routes>
+            </BrowserRouter>
+            <FooterComponent/>
+        </>
+    )
 }
 
 export default App
