@@ -38,7 +38,7 @@ const BookListComponent = () => {
     return (
         <div className='container'>
             <h2 className='text-center'>Listado de Libros</h2>
-            <button className="btn btn-primary" onClick={addBook}>Add Book</button>
+            <button className="btn btn-primary mb-2" onClick={addBook}>Add Book</button>
             <table className='table table-striped table-dark table-bordered'>
                 <thead>
                 <tr>
@@ -60,7 +60,7 @@ const BookListComponent = () => {
                         <td>{book.publicationYear}</td>
                         <td>
                             <button className='btn btn-info' onClick={()=>updateBook(book.id)}>Update</button>
-                            <button className='btn btn-danger' onClick={()=>removeBook(book.id)} style={{marginLeft:'10px'}}>Delete</button>
+                            <button className='btn btn-danger ms-3' onClick={()=>removeBook(book.id)}>Delete</button>
                         </td>
                     </tr>)
                 )

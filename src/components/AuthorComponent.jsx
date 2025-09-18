@@ -1,18 +1,15 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { addAuthor, getAuthor, updateAuthor } from "../services/AuthorService.js";
 import { useNavigate, useParams } from "react-router-dom";
 
 const AuthorComponent = () => {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
-
     const [errors, setErrors] = useState({
         firstName: "",
         lastName: "",
     });
-
     const navigate = useNavigate();
-
     const {id} = useParams();
 
     useEffect(() => {
@@ -46,7 +43,7 @@ const AuthorComponent = () => {
         return valid;
     }
 
-    function saveOrUpdateBook(event) {
+    function saveOrUpdateAuthor(event) {
         event.preventDefault();
         if (validateform()) {
             const author = {firstName, lastName};
@@ -70,9 +67,9 @@ const AuthorComponent = () => {
 
     function pageTitle() {
         if (id) {
-            return <h2 className="text-cemter">Update Author</h2>;
+            return <h2 className="text-center">Update Author</h2>;
         } else {
-            return <h2 className="text-cemter">Add Author</h2>;
+            return <h2 className="text-center">Add Author</h2>;
         }
     }
 
@@ -87,30 +84,30 @@ const AuthorComponent = () => {
                 <div className="card-body">
                     <form>
                         <div className="form-group mb-2">
-                            <label className="form-label">Title</label>
+                            <label className="form-label">First Name</label>
                             <input
                                 type="text"
-                                name="First Name"
+                                name="firstName"
                                 value={firstName}
-                                placeholder="Enter first name"
-                                className={`form-control ${errors.firstName ? errors.firstName : ""}`}
+                                placeholder="Enter First Name"
+                                className={`form-control ${errors.firstName ? 'is-invalid' : ""}`}
                                 onChange={(e) => setFirstName(e.target.value)}
                             />
-                            {errors.firstName && <div className="invalid-feedback">{errors.title}</div>}
+                            {errors.firstName && <div className="invalid-feedback">{errors.firstName}</div>}
                         </div>
                         <div className="form-group mb-3">
-                            <label>Apellido</label>
+                            <label>Last Name</label>
                             <input
                                 type="text"
                                 name="lastName"
                                 value={lastName}
-                                placeholder="Enter Lastname"
-                                className={`form-control ${errors.lastname ? errors.lastname : ""}`}
+                                placeholder="Enter Last Name"
+                                className={`form-control ${errors.lastName ? 'is-invalid' : ""}`}
                                 onChange={(e) => setLastName(e.target.value)}
                             />
                             {errors.lastName && <div className="invalid-feedback">{errors.lastName}</div>}
                         </div>
-                        <button type="submit" className="btn btn-success" onClick={saveOrUpdateBook}>Submit</button>
+                        <button type="submit" className="btn btn-success" onClick={saveOrUpdateAuthor}>Submit</button>
                     </form>
                 </div>
             </div>

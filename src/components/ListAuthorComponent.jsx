@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getAllAuthors, deleteAuthor } from "../services/AuthorService"; // Ajusta la ruta según tu proyecto
+import { getAllAuthors, deleteAuthor } from "../services/AuthorService";
 import {useNavigate} from "react-router-dom";
 
 const AuthorListComponent = () => {
@@ -17,11 +17,11 @@ const AuthorListComponent = () => {
   }
 
   function addAuthor(){
-      navigate(`/author`);
+      navigate(`/add-author`);
   }
 
   function updateAuthor(id){
-      navigate(`/author/${id}`);
+      navigate(`/edit-author/${id}`);
   }
 
   function removeAuthor(id){
@@ -37,15 +37,15 @@ const AuthorListComponent = () => {
 
     return (
         <div className="container">
-            <h2 className="text-center">Lista de Autores</h2>
-            <button className="btn btn-primary" onClick={addAuthor}>Add Author</button>
-            <table className="table table-bordered table-striped">
+            <h2 className="text-center">Listado de Autores</h2>
+            <button className="btn btn-primary mb-2" onClick={addAuthor}>Add Author</button>
+            <table className="table table-bordered table-striped table-dark">
                 <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Nombre</th>
-                    <th>Apellido</th>
-                    <th>Email</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Action</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -54,10 +54,9 @@ const AuthorListComponent = () => {
                         <td>{author.id}</td>
                         <td>{author.firstName}</td>
                         <td>{author.lastName}</td>
-                        <td>{author.email}</td>
                         <td>
                             <button className="btn btn-info" onClick={() =>updateAuthor(author.id)}>Update</button>
-                            <button className="btn btn-danger" onClick={() =>removeAuthor(author.id)} style={{marginLeft:'10px'}}>Delete</button>
+                            <button className="btn btn-danger ms-3" onClick={() =>removeAuthor(author.id)}>Delete</button>
                         </td>
                     </tr>)
                 )

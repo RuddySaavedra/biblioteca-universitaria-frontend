@@ -13,8 +13,8 @@ function App() {
         <BrowserRouter>
             <HeaderComponent/>
             <Routes>
-                {/* Rutas de Book */}
                 <Route path="/" element={<ListBookComponent/>}/>
+                {/* Rutas de Book */}
                 <Route path="/books" element={<ListBookComponent/>}/>
                 <Route path="/add-book" element={<BookComponent/>}/>
                 <Route path="/edit-book/:id" element={<BookComponent/>}/>

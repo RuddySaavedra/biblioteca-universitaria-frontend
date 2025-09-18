@@ -46,7 +46,13 @@ const BookComponent = () => {
         }
 
         if (isbn.trim()) {
-            errorsCopy.isbn = '';
+            const cleanIsbn = isbn.replace(/[-\s]/g, ''); // elimina guiones y espacios
+            if (/^\d{10}(\d{3})?$/.test(cleanIsbn)) {
+                errorsCopy.isbn = '';
+            } else {
+                errorsCopy.isbn = 'ISBN must be 10 or 13 digits';
+                valid = false;
+            }
         } else {
             errorsCopy.isbn = 'ISBN required';
             valid = false;
@@ -94,9 +100,9 @@ const BookComponent = () => {
 
     function pageTitle() {
         if (id) {
-            return <h2 className="text-cemter">Update Book</h2>;
+            return <h2 className="text-center">Update Book</h2>;
         } else {
-            return <h2 className="text-cemter">Add Book</h2>;
+            return <h2 className="text-center">Add Book</h2>;
         }
     }
 
@@ -136,7 +142,7 @@ const BookComponent = () => {
                         </div>
                         <div className="form-group mb-2">
                             <label className="form-label">ISBN</label>
-                            <inp
+                            <input
                                 type="text"
                                 name="isbn"
                                 value={isbn}
@@ -152,6 +158,7 @@ const BookComponent = () => {
                                 type="number"
                                 name="publicationYear"
                                 value={publicationYear}
+                                placeholder="Enter Publication Year"
                                 className={`form-control ${errors.publicationYear ? 'is-invalid' : ""}`}
                                 onChange={(e) => setPublicationYear(e.target.value)}
                             />

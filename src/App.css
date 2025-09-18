@@ -9,4 +9,7 @@
     background-color: black;
     padding: 10px;
     width: 100%;
+    position: fixed;            /* quedarse fijo abajo */
+    bottom: 0;                  /* alineado al borde inferior */
+    left: 0;
 }
