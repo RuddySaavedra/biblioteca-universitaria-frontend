@@ -46,6 +46,8 @@ const AuthorListComponent = () => {
                     <th>First Name</th>
                     <th>Last Name</th>
                     <th>Address</th>
+                    <th>Email</th>
+                    <th>Birth Date</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -56,6 +58,8 @@ const AuthorListComponent = () => {
                         <td>{author.firstName}</td>
                         <td>{author.lastName}</td>
                         <td>{author.address}</td>
+                        <td>{author.email}</td>
+                        <td>{author.birthDate}</td>
                         <td>
                             <button className="btn btn-info" onClick={() =>updateAuthor(author.id)}>Update</button>
                             <button className="btn btn-danger ms-3" onClick={() =>removeAuthor(author.id)}>Delete</button>

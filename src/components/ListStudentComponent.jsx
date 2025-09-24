@@ -49,6 +49,7 @@ const ListStudentComponent = () => {
                     <th>Enrollment #</th>
                     <th>Career</th>
                     <th>Semester</th>
+                    <th>Phone</th>
                     <th>Action</th>
                 </tr>
                 </thead>
@@ -62,6 +63,7 @@ const ListStudentComponent = () => {
                         <td>{s.enrollmentNumber}</td>
                         <td>{s.career}</td>
                         <td>{s.semester}</td>
+                        <td>{s.phone}</td>
                         <td>
                             <button className="btn btn-info" onClick={() => updateStudentNav(s.id)}>
                                 Update
@@ -74,7 +76,7 @@ const ListStudentComponent = () => {
                 ))}
                 {students.length === 0 && (
                     <tr>
-                        <td colSpan="7" className="text-center">Sin registros</td>
+                        <td colSpan="8" className="text-center">Sin registros</td>
                     </tr>
                 )}
                 </tbody>

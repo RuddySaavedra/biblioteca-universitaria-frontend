@@ -6,10 +6,14 @@ const AuthorComponent = () => {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [address, setAddress] = useState("");
+    const [email, setEmail] = useState("");
+    const [birthDate, setBirthDate] = useState("");
     const [errors, setErrors] = useState({
         firstName: "",
         lastName: "",
         address: "",
+        email: "",
+        birthDate: "",
     });
     const navigate = useNavigate();
     const {id} = useParams();
@@ -20,6 +24,8 @@ const AuthorComponent = () => {
                 setFirstName(response.data.firstName);
                 setLastName(response.data.lastName);
                 setAddress(response.data.address);
+                setEmail(response.data.email);
+                setBirthDate(response.data.birthDate);
             })
         }
     }, [id]);
@@ -49,6 +55,42 @@ const AuthorComponent = () => {
             valid = false;
         }
 
+        // Validación para ver si está vacío
+        if (email.trim()) {
+            errorsCopy.email = '';
+        } else {
+            errorsCopy.email = 'Email required';
+            valid = false;
+        }
+
+        // Validación de formato
+        if (email.trim()) {
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailRegex.test(email)) {
+                errorsCopy.email = 'Email is not valid';
+                valid = false;
+            }
+        }
+
+        // Validación para ver si está vacío
+        if (birthDate.trim()) {
+            errorsCopy.birthDate = '';
+        } else {
+            errorsCopy.birthDate = 'Birth Date required';
+            valid = false;
+        }
+
+        // Validar que la fecha de nacimiento no sea en el futuro
+        if (birthDate.trim()) {
+            const today = new Date();
+            const selectedDate = new Date(birthDate);
+
+            if (selectedDate > today) {
+                errorsCopy.birthDate = "Birth Date cannot be in the future";
+                valid = false;
+            }
+        }
+
         setErrors(errorsCopy);
         return valid;
     }
@@ -56,7 +98,7 @@ const AuthorComponent = () => {
     function saveOrUpdateAuthor(event) {
         event.preventDefault();
         if (validateform()) {
-            const author = {firstName, lastName, address};
+            const author = {firstName, lastName, address, email, birthDate};  // Nueva propiedad
             if (id) {
                 updateAuthor(id, author).then(response => {
                     console.log(response.data);
@@ -128,6 +170,30 @@ const AuthorComponent = () => {
                                 onChange={(e) => setAddress(e.target.value)}
                             />
                             {errors.address && <div className="invalid-feedback">{errors.address}</div>}
+                        </div>
+                        <div className="form-group mb-3">
+                            <label>Email</label>
+                            <input
+                                type="email"
+                                name="email"
+                                value={email}
+                                placeholder="Enter email"
+                                className={`form-control ${errors.email ? 'is-invalid' : ""}`}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                            {errors.email && <div className="invalid-feedback">{errors.email}</div>}
+                        </div>
+                        <div className="form-group mb-3">
+                            <label>Birth Date</label>
+                            <input
+                                type="date"
+                                name="birthDate"
+                                value={birthDate}
+                                placeholder="Enter Birth Date"
+                                className={`form-control ${errors.birthDate ? 'is-invalid' : ""}`}
+                                onChange={(e) => setBirthDate(e.target.value)}
+                            />
+                            {errors.birthDate && <div className="invalid-feedback">{errors.birthDate}</div>}
                         </div>
                         <button type="submit" className="btn btn-success" onClick={saveOrUpdateAuthor}>Submit</button>
                     </form>

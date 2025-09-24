@@ -10,12 +10,15 @@ const StudentComponent = () => {
     const [enrollmentNumber, setEnrollmentNumber] = useState("");
     const [career, setCareer] = useState("");
     const [semester, setSemester] = useState("");
+    const [phone, setPhone] = useState("");
 
     const [errors, setErrors] = useState({
         name: "",
         email: "",
         enrollmentNumber: "",
-        semester: ""
+        career: "",
+        semester: "",
+        phone: "",
     });
 
     const navigate = useNavigate();
@@ -30,6 +33,7 @@ const StudentComponent = () => {
                 setEnrollmentNumber(s.enrollmentNumber ?? "");
                 setCareer(s.career ?? "");
                 setSemester(String(s.semester ?? ""));
+                setPhone(s.phone ?? "");
             });
         }
     }, [id]);
@@ -57,6 +61,22 @@ const StudentComponent = () => {
             valid = false;
         }
 
+        // phone
+        if (phone.trim()) {
+            copy.phone = "";
+        } else {
+            copy.phone = "Phone required";
+            valid = false;
+        }
+
+        if (phone.trim()) {
+            const phoneRegex = /^\+?\d{7,15}$/;
+            if (!phoneRegex.test(phone)) {
+                copy.phone = "Phone must be in a valid format";
+                valid = false;
+            }
+        }
+
         setErrors(copy);
         return valid;
     }
@@ -70,7 +90,8 @@ const StudentComponent = () => {
             email,
             enrollmentNumber,
             career,
-            semester: Number(semester)
+            semester: Number(semester),
+            phone
         };
 
         if (id) {
@@ -158,7 +179,18 @@ const StudentComponent = () => {
                             />
                             {errors.semester && <div className="invalid-feedback">{errors.semester}</div>}
                         </div>
-
+                        <div className="form-group mb-2">
+                            <label className="form-label">Phone</label>
+                            <input
+                                type="text"
+                                name="phone"
+                                value={phone}
+                                placeholder="Enter phone"
+                                className={`form-control ${errors.phone ? 'is-invalid' : ""}`}
+                                onChange={(e) => setPhone(e.target.value)}
+                            />
+                            {errors.phone && <div className="invalid-feedback">{errors.phone}</div>}
+                        </div>
                         <button type="submit" className="btn btn-success" onClick={saveOrUpdateStudent}>
                             Submit
                         </button>
