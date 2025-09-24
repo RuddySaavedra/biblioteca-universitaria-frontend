@@ -53,6 +53,13 @@ const StudentComponent = () => {
         if (enrollmentNumber.trim()) copy.enrollmentNumber = "";
         else { copy.enrollmentNumber = "Enrollment # required"; valid = false; }
 
+        if (career.trim()) {
+            copy.career = "";
+        } else {
+            copy.career = "Career required";
+            valid = false;
+        }
+
         // semester (1..20 por ejemplo)
         if (semester.trim() && Number.isInteger(Number(semester)) && Number(semester) >= 1 && Number(semester) <= 20) {
             copy.semester = "";
