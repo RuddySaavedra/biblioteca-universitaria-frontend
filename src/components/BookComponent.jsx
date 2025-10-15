@@ -27,6 +27,40 @@ const BookComponent = () => {
         }
     }, [id]);
 
+    /*
+    * if (email.trim()) {
+            errorsCopy.email = '';
+        } else {
+            errorsCopy.email = 'Email required';
+            valid = false;
+        }
+
+        if (email.trim()){
+            const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
+            if(!emailRegex.test(email)) {
+                errorsCopy.email = 'Email not valid';
+                valid = false;
+            }
+
+        }
+
+        if (birthDate.trim()) {
+            errorsCopy.birthDate = '';
+        } else {
+            errorsCopy.birthDate = 'BirthDate required';
+            valid = false;
+        }
+
+        if(birthDate.trim()){
+            const today = new Date();
+            const selectedDate = new Date(birthDate);
+            if(selectedDate > today){
+                errorsCopy.birthDate = 'Birthdate not valid';
+                valid = false;
+            }
+        }*/
+
+
     function validateForm() {
         let valid = true;
 
