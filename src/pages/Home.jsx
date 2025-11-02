@@ -9,36 +9,36 @@ const Home = () => {
 
     const modules = [
         {
-            title: "Employees",
-            description: "Manage employee data, departments, and contact details.",
+            title: "Books",
+            description: "Manage book data and their associated authors.",
             icon: <Users size={32} />,
-            path: "/employees",
+            path: "/books",
             color: "primary",
         },
         {
-            title: "Departments",
-            description: "Organize company structure and departmental assignments.",
+            title: "Authors",
+            description: "Manage authors and their associated books",
             icon: <Building2 size={32} />,
-            path: "/departments",
+            path: "/authors",
             color: "success",
         },
         {
-            title: "Skills",
-            description: "Maintain a catalog of employee skills and competencies.",
+            title: "Students",
+            description: "Register students and track their borrowing history.",
             icon: <Brain size={32} />,
-            path: "/skills",
+            path: "/students",
             color: "info",
         },
         {
-            title: "Dependents",
-            description: "Manage employee family members and benefits coverage.",
+            title: "Inventory",
+            description: "Track book stock, availability, and thresholds.",
             icon: <Users2 size={32} />,
-            path: "/dependents",
+            path: "/inventory",
             color: "warning",
         },
         {
-            title: "Employee Skills",
-            description: "Assign and manage skill relationships for each employee.",
+            title: "Loans & Returns",
+            description: "Manage book loans, returns, and calculate penalties",
             icon: <Award size={32} />,
             path: "/employee-skills",
             color: "danger",
@@ -52,9 +52,9 @@ const Home = () => {
             }`}
         >
             {/* Título */}
-            <h1 className="fw-bold mb-3">Welcome to the Enterprise Management System</h1>
+            <h1 className="fw-bold mb-3">Welcome to the Library Management System</h1>
             <p className="lead mb-5">
-                Streamline employee and department management with efficiency and clarity.
+                Streamline library operations, book tracking, and student management.
             </p>
 
             {/* Tarjetas */}
@@ -88,7 +88,7 @@ const Home = () => {
             {/* Pie inferior */}
             <div className="mt-5">
                 <p className="text-muted small">
-                    Empowering organizations with efficient employee management tools.
+                    Empowering your library with efficient management tools.
                 </p>
             </div>
         </div>
