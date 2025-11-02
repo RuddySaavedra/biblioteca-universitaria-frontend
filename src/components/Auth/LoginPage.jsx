@@ -43,6 +43,7 @@ const LoginPage = () => {
             }
         } catch (error) {
             Swal.fire("Error", "An unexpected error occurred.", "error");
+            console.log(error)
         } finally {
             setLoading(false);
         }
@@ -52,7 +53,7 @@ const LoginPage = () => {
         <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
             <div className="card shadow-sm p-4" style={{ width: "380px" }}>
                 <h3 className="text-center mb-3 text-primary fw-bold">
-                    EMS — Login
+                    LMS — Login
                 </h3>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
