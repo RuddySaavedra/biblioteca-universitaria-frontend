@@ -42,8 +42,6 @@ const LoanForm = () => {
         try {
             const res = await getLoan(id);
             const data = res.data;
-
-            // Soporte tanto para DTO con bookId/studentId como para objetos anidados
             setLoan({
                 loanDate: data.loanDate || "",
                 dueDate: data.dueDate || "",
@@ -68,13 +66,47 @@ const LoanForm = () => {
         setLoan({ ...loan, [name]: value });
     };
 
+    // validateForm con misma estructura que tu InventoryComponent
+    function validateForm() {
+        if (!loan.loanDate || !loan.dueDate) {
+            void Swal.fire("Validation", "Both loan and due dates are required.", "warning");
+            return false;
+        }
+
+        const loanDate = new Date(loan.loanDate);
+        const dueDate = new Date(loan.dueDate);
+
+        if (isNaN(loanDate.getTime()) || isNaN(dueDate.getTime())) {
+            void Swal.fire("Validation", "Invalid date format.", "warning");
+            return false;
+        }
+
+        if (dueDate < loanDate) {
+            void Swal.fire("Validation", "Due date cannot be earlier than loan date.", "warning");
+            return false;
+        }
+
+        if (!loan.bookId) {
+            void Swal.fire("Validation", "Please select a book.", "warning");
+            return false;
+        }
+
+        if (!loan.studentId) {
+            void Swal.fire("Validation", "Please select a student.", "warning");
+            return false;
+        }
+
+        return true;
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!validateForm()) return;
 
         const payload = {
-            loanDate: loan.loanDate, // "YYYY-MM-DD"
-            dueDate: loan.dueDate,   // "YYYY-MM-DD"
-            status: loan.status,     // ACTIVE | RETURNED | LATE
+            loanDate: loan.loanDate,
+            dueDate: loan.dueDate,
+            status: loan.status,
             bookId: Number(loan.bookId),
             studentId: Number(loan.studentId),
         };

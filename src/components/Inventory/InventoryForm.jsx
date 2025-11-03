@@ -52,27 +52,44 @@ const InventoryForm = () => {
         setInventory({ ...inventory, [name]: value });
     };
 
+    // validateForm basado en tu InventoryComponent original
+    function validateForm() {
+        const totalCopies = Number(inventory.totalCopies);
+        const availableCopies = Number(inventory.availableCopies);
+        const minThreshold = Number(inventory.minThreshold);
+
+        if (totalCopies <= 0) {
+            void Swal.fire("Validation", "Total copies must be greater than 0", "warning");
+            return false;
+        }
+
+        if (availableCopies < 0) {
+            void Swal.fire("Validation", "Available copies cannot be negative", "warning");
+            return false;
+        } else if (availableCopies > totalCopies) {
+            void Swal.fire("Validation", "Available copies cannot exceed total copies", "warning");
+            return false;
+        }
+
+        if (minThreshold < 0) {
+            void Swal.fire("Validation", "Minimum threshold cannot be negative", "warning");
+            return false;
+        } else if (minThreshold > totalCopies) {
+            void Swal.fire("Validation", "Minimum threshold cannot exceed total copies", "warning");
+            return false;
+        }
+
+        return true;
+    }
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // Validaciones simples en cliente
-        const t = Number(inventory.totalCopies);
-        const a = Number(inventory.availableCopies);
-        const m = Number(inventory.minThreshold);
-
-        if (a > t) {
-            void Swal.fire("Validation", "Available copies cannot exceed total copies.", "warning");
-            return;
-        }
-        if (t < 0 || a < 0 || m < 0) {
-            void Swal.fire("Validation", "Values must be non-negative.", "warning");
-            return;
-        }
+        if (!validateForm()) return;
 
         const payload = {
-            totalCopies: t,
-            availableCopies: a,
-            minThreshold: m,
+            totalCopies: Number(inventory.totalCopies),
+            availableCopies: Number(inventory.availableCopies),
+            minThreshold: Number(inventory.minThreshold),
             bookId: Number(inventory.bookId),
         };
 
@@ -155,8 +172,14 @@ const InventoryForm = () => {
                     />
                 </div>
 
-                <button type="submit" className="btn btn-success me-2">Save</button>
-                <button type="button" className="btn btn-secondary" onClick={() => navigate("/inventories")}>
+                <button type="submit" className="btn btn-success me-2">
+                    Save
+                </button>
+                <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={() => navigate("/inventories")}
+                >
                     Cancel
                 </button>
             </form>
