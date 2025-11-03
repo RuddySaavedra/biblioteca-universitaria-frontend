@@ -8,6 +8,7 @@ import Home from "./pages/Home.jsx";
 import PrivateRoute from "./Routes/PrivateRoute.jsx";
 import BookPage from "./pages/BookPage.jsx";
 import {ThemeProvider} from "./context/ThemeContext.jsx";
+import AuthorPage from "./pages/AuthorPage.jsx";
 
 
 function App() {
@@ -36,6 +37,14 @@ function App() {
                                     element={
                                         <PrivateRoute>
                                             <BookPage />
+                                        </PrivateRoute>
+                                    }
+                                />
+                                <Route
+                                    path="authors/*"
+                                    element={
+                                        <PrivateRoute>
+                                            <AuthorPage />
                                         </PrivateRoute>
                                     }
                                 />
