@@ -52,7 +52,7 @@ const InventoryForm = () => {
         setInventory({ ...inventory, [name]: value });
     };
 
-    // --- validateForm basado en tu InventoryComponent original ---
+    // validateForm basado en tu InventoryComponent original
     function validateForm() {
         const totalCopies = Number(inventory.totalCopies);
         const availableCopies = Number(inventory.availableCopies);

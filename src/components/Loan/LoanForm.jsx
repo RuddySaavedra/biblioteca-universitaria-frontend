@@ -66,7 +66,7 @@ const LoanForm = () => {
         setLoan({ ...loan, [name]: value });
     };
 
-    // --- validateForm con misma estructura que tu InventoryComponent ---
+    // validateForm con misma estructura que tu InventoryComponent
     function validateForm() {
         if (!loan.loanDate || !loan.dueDate) {
             void Swal.fire("Validation", "Both loan and due dates are required.", "warning");
