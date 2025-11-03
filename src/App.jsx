@@ -9,7 +9,9 @@ import PrivateRoute from "./Routes/PrivateRoute.jsx";
 import BookPage from "./pages/BookPage.jsx";
 import LoanPage from "./pages/LoanPage.jsx";
 import InventoryPage from "./pages/InventoryPage.jsx";
-import { ThemeProvider } from "./context/ThemeContext.jsx";
+import {ThemeProvider} from "./context/ThemeContext.jsx";
+import AuthorPage from "./pages/AuthorPage.jsx";
+
 
 function App() {
     return (
@@ -62,7 +64,16 @@ function App() {
                                         </PrivateRoute>
                                     }
                                 />
-
+                                 
+                                {/* Authors */}
+                                <Route
+                                    path="authors/*"
+                                    element={
+                                        <PrivateRoute>
+                                            <AuthorPage />
+                                        </PrivateRoute>
+                                    }
+                                />
                                 {/* Redirect unknown paths to home */}
                                 <Route path="*" element={<Navigate to="/" replace />} />
                             </Route>
