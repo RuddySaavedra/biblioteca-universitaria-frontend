@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
-import { Users, Building2, Brain, Users2, Award } from "lucide-react";
+import { BookOpen, Feather, LucideGraduationCap, LucidePackageSearch, Repeat } from "lucide-react";
 
 const Home = () => {
     const { theme } = useTheme();
@@ -11,36 +11,36 @@ const Home = () => {
         {
             title: "Books",
             description: "Manage book data and their associated authors.",
-            icon: <Users size={32} />,
+            icon: <BookOpen size={32} />,
             path: "/books",
             color: "primary",
         },
         {
             title: "Authors",
             description: "Manage authors and their associated books",
-            icon: <Building2 size={32} />,
+            icon: <Feather size={32} />,
             path: "/authors",
             color: "success",
         },
         {
             title: "Students",
             description: "Register students and track their borrowing history.",
-            icon: <Brain size={32} />,
+            icon: <LucideGraduationCap size={32} />,
             path: "/students",
             color: "info",
         },
         {
             title: "Inventory",
             description: "Track book stock, availability, and thresholds.",
-            icon: <Users2 size={32} />,
+            icon: <LucidePackageSearch size={32} />,
             path: "/inventory",
             color: "warning",
         },
         {
             title: "Loans & Returns",
             description: "Manage book loans, returns, and calculate penalties",
-            icon: <Award size={32} />,
-            path: "/employee-skills",
+            icon: <Repeat size={32} />,
+            path: "/loans",
             color: "danger",
         },
     ];

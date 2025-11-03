@@ -1,6 +1,6 @@
 import React from 'react';
 import {Route, Routes} from "react-router-dom";
-import StudentList from "./components/StudentList";
+import StudentList from "../components/Student/StudentList.jsx";
 import StudentForm from "../components/Student/StudentForm.jsx";
 
 const StudentPage = () => {

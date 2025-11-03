@@ -1,7 +1,8 @@
 import "./App.css";
-import { AuthProvider } from "./context/AuthContext.jsx";
-import ErrorBoundary from "./components/ErrorBoundary.jsx";
 import { BrowserRouter as Router, Navigate, Route, Routes } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext.jsx";
+import {ThemeProvider} from "./context/ThemeContext.jsx";
+import ErrorBoundary from "./components/ErrorBoundary.jsx";
 import LoginPage from "./components/Auth/LoginPage.jsx";
 import MainLayout from "./Layouts/MainLayout.jsx";
 import Home from "./pages/Home.jsx";
@@ -9,9 +10,8 @@ import PrivateRoute from "./Routes/PrivateRoute.jsx";
 import BookPage from "./pages/BookPage.jsx";
 import LoanPage from "./pages/LoanPage.jsx";
 import InventoryPage from "./pages/InventoryPage.jsx";
-import {ThemeProvider} from "./context/ThemeContext.jsx";
-import StudentPage from "./components/StudentPage.jsx";
 import AuthorPage from "./pages/AuthorPage.jsx";
+import StudentPage from "./pages/StudentPage.jsx";
 
 
 function App() {
@@ -58,7 +58,7 @@ function App() {
 
                                 {/* Inventories */}
                                 <Route
-                                    path="inventories/*"
+                                    path="inventory/*"
                                     element={
                                         <PrivateRoute>
                                             <InventoryPage />

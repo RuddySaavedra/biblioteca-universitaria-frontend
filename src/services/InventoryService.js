@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // En la constante se asigna la URL del BACK-END (controller-apis)
-const API_REST_BASE_URL = 'http://localhost:8080/api/inventories';
+const API_REST_BASE_URL = 'http://localhost:8080/api/inventory';
 
 // Llamar al API del Back-End para acceder a sus métodos
 export const getAllInventories = ()=> axios.get(API_REST_BASE_URL);

@@ -45,6 +45,26 @@ const Header = () => {
                                 </Link>
                             </li>
                             <li className="nav-item">
+                                <Link className="nav-link" to="/authors">
+                                    Authors
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/students">
+                                    Students
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/inventory">
+                                    Inventory
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="/loans">
+                                    Loans & Returns
+                                </Link>
+                            </li>
+                            <li className="nav-item">
                                 <button
                                     className="btn btn-outline-primary ms-3"
                                     onClick={handleLogout}
