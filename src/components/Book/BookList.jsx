@@ -25,7 +25,7 @@ const BookList = () => {
     const performDelete = async (id) => {
         try {
             await deleteBook(id);
-            void Swal.fire("Deleted!", "Book deleted successfully!", "success");
+            void Swal.fire("Deleted!", "Book removed successfully!", "success");
             await loadBooks();
         } catch (error) {
             console.log("Error deleting the book:", error);

@@ -1,5 +1,6 @@
 import {Route, Routes} from "react-router-dom";
 import BookList from "../components/Book/BookList.jsx";
+import BookForm from "../components/Book/BookForm.jsx";
 
 /**
  * Gestiona rutas internas:
@@ -10,7 +11,8 @@ const BookPage = () => {
     return (
         <Routes>
             <Route index element={<BookList />} />
-
+            <Route path="add" element={<BookForm />} />
+            <Route path="edit/:id" element={<BookForm />} />
         </Routes>
     )
 }
