@@ -10,6 +10,7 @@ import BookPage from "./pages/BookPage.jsx";
 import LoanPage from "./pages/LoanPage.jsx";
 import InventoryPage from "./pages/InventoryPage.jsx";
 import {ThemeProvider} from "./context/ThemeContext.jsx";
+import StudentPage from "./components/StudentPage.jsx";
 import AuthorPage from "./pages/AuthorPage.jsx";
 
 
@@ -71,6 +72,16 @@ function App() {
                                     element={
                                         <PrivateRoute>
                                             <AuthorPage />
+                                        </PrivateRoute>
+                                    }
+                                />
+                                      
+                                {/* Students */}
+                                <Route
+                                    path="students/*"
+                                    element={
+                                        <PrivateRoute>
+                                            <StudentPage />
                                         </PrivateRoute>
                                     }
                                 />
