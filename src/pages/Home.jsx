@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
-import { BookOpen, Feather, LucideGraduationCap, LucidePackageSearch, Repeat } from "lucide-react";
+import { BookOpen, Feather, LucideGraduationCap, LucidePackageSearch, Repeat, Repeat2 } from "lucide-react";
 
 const Home = () => {
     const { theme } = useTheme();
@@ -37,12 +37,19 @@ const Home = () => {
             color: "warning",
         },
         {
-            title: "Loans & Returns",
+            title: "Loans",
             description: "Manage book loans, returns, and calculate penalties",
             icon: <Repeat size={32} />,
             path: "/loans",
             color: "danger",
         },
+        {
+            title: "Returns",
+            description: "Handle book returns and update loans accordingly.",
+            icon: <Repeat2 size={32} />,
+            path: "/book-returns",
+            color: "secondary",
+        }
     ];
 
     return (

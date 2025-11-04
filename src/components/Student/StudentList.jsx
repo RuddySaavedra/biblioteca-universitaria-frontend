@@ -38,7 +38,7 @@ const StudentList = () => {
 
     const handleDelete = async(id) => {
         const result = await Swal.fire({
-            title: 'Are you sure?',
+            title: 'Delete Student and associated Loans?',
             text: "This will delete the student permanently.",
             icon: "warning",
             showCancelButton: true,

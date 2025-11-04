@@ -1,3 +1,4 @@
+// javascript
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -9,7 +10,7 @@ const LoanForm = () => {
     const [loan, setLoan] = useState({
         loanDate: "",
         dueDate: "",
-        status: "ACTIVE",
+        status: "",
         bookId: "",
         studentId: "",
     });
@@ -45,9 +46,9 @@ const LoanForm = () => {
             setLoan({
                 loanDate: data.loanDate || "",
                 dueDate: data.dueDate || "",
-                status: data.status || "ACTIVE",
-                bookId: data.bookId ?? data.book?.id ?? "",
-                studentId: data.studentId ?? data.student?.id ?? "",
+                status: data.status || "",
+                bookId: data.bookId ?? "",
+                studentId: data.studentId ?? "",
             });
         } catch (e) {
             console.error(e);
@@ -66,7 +67,7 @@ const LoanForm = () => {
         setLoan({ ...loan, [name]: value });
     };
 
-    // validateForm con misma estructura que tu InventoryComponent
+    // validateForm: agregar verificación loanDate <= hoy
     function validateForm() {
         if (!loan.loanDate || !loan.dueDate) {
             void Swal.fire("Validation", "Both loan and due dates are required.", "warning");
@@ -75,9 +76,17 @@ const LoanForm = () => {
 
         const loanDate = new Date(loan.loanDate);
         const dueDate = new Date(loan.dueDate);
+        const today = new Date();
+        // Normalizar hora para comparar solo fecha
+        today.setHours(0,0,0,0);
 
         if (isNaN(loanDate.getTime()) || isNaN(dueDate.getTime())) {
             void Swal.fire("Validation", "Invalid date format.", "warning");
+            return false;
+        }
+
+        if (loanDate > today) {
+            void Swal.fire("Validation", "Loan date cannot be in the future.", "warning");
             return false;
         }
 
@@ -103,10 +112,10 @@ const LoanForm = () => {
         e.preventDefault();
         if (!validateForm()) return;
 
+        // No enviar 'status' desde el frontend; backend lo asignará
         const payload = {
             loanDate: loan.loanDate,
             dueDate: loan.dueDate,
-            status: loan.status,
             bookId: Number(loan.bookId),
             studentId: Number(loan.studentId),
         };
@@ -122,7 +131,8 @@ const LoanForm = () => {
             navigate("/loans");
         } catch (error) {
             console.error("Error saving loan:", error);
-            void Swal.fire("Error", "Failed to save the loan", "error");
+            const backendMessage = error.response?.data?.message || error.message;
+            void Swal.fire("Error", String(backendMessage), "error");
         }
     };
 
@@ -130,6 +140,42 @@ const LoanForm = () => {
         <div className="container mt-4">
             <h2>{id ? "Edit Loan" : "Add Loan"}</h2>
             <form onSubmit={handleSubmit}>
+                <div className="mb-3">
+                    <label className="form-label">Book</label>
+                    <select
+                        className="form-select"
+                        name="bookId"
+                        value={loan.bookId}
+                        onChange={handleChange}
+                        required
+                    >
+                        <option value="">-- Select Book --</option>
+                        {books.map((book) => (
+                            <option key={book.id} value={book.id}>
+                                {book.title} {book.isbn ? `(${book.isbn})` : ""}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
+                <div className="mb-3">
+                    <label className="form-label">Student</label>
+                    <select
+                        className="form-select"
+                        name="studentId"
+                        value={loan.studentId}
+                        onChange={handleChange}
+                        required
+                    >
+                        <option value="">-- Select Student --</option>
+                        {students.map((s) => (
+                            <option key={s.id} value={s.id}>
+                                {s.name}
+                            </option>
+                        ))}
+                    </select>
+                </div>
+
                 <div className="mb-3">
                     <label className="form-label">Loan Date</label>
                     <input
@@ -155,54 +201,9 @@ const LoanForm = () => {
                 </div>
 
                 <div className="mb-3">
-                    <label className="form-label">Status</label>
-                    <select
-                        className="form-select"
-                        name="status"
-                        value={loan.status}
-                        onChange={handleChange}
-                        required
-                    >
-                        <option value="ACTIVE">ACTIVE</option>
-                        <option value="RETURNED">RETURNED</option>
-                        <option value="LATE">LATE</option>
-                    </select>
-                </div>
-
-                <div className="mb-3">
-                    <label className="form-label">Book</label>
-                    <select
-                        className="form-select"
-                        name="bookId"
-                        value={loan.bookId}
-                        onChange={handleChange}
-                        required
-                    >
-                        <option value="">-- Select Book --</option>
-                        {books.map((b) => (
-                            <option key={b.id} value={b.id}>
-                                {b.title} {b.isbn ? `(${b.isbn})` : ""}
-                            </option>
-                        ))}
-                    </select>
-                </div>
-
-                <div className="mb-3">
-                    <label className="form-label">Student</label>
-                    <select
-                        className="form-select"
-                        name="studentId"
-                        value={loan.studentId}
-                        onChange={handleChange}
-                        required
-                    >
-                        <option value="">-- Select Student --</option>
-                        {students.map((s) => (
-                            <option key={s.id} value={s.id}>
-                                {s.name} {s.enrollmentNumber ? `- ${s.enrollmentNumber}` : ""}
-                            </option>
-                        ))}
-                    </select>
+                    <div className="form-text">
+                        * El estado del préstamo se calcula desde el servidor (dependiente de devoluciones).
+                    </div>
                 </div>
 
                 <button type="submit" className="btn btn-success me-2">

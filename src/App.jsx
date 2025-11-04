@@ -12,6 +12,7 @@ import LoanPage from "./pages/LoanPage.jsx";
 import InventoryPage from "./pages/InventoryPage.jsx";
 import AuthorPage from "./pages/AuthorPage.jsx";
 import StudentPage from "./pages/StudentPage.jsx";
+import BookReturnPage from "./pages/BookReturnPage.jsx";
 
 
 function App() {
@@ -82,6 +83,16 @@ function App() {
                                     element={
                                         <PrivateRoute>
                                             <InventoryPage />
+                                        </PrivateRoute>
+                                    }
+                                />
+
+                                {/*Book Returns */}
+                                <Route
+                                    path="book-returns/*"
+                                    element={
+                                        <PrivateRoute>
+                                            <BookReturnPage returnBook={true} />
                                         </PrivateRoute>
                                     }
                                 />

@@ -38,7 +38,7 @@ const AuthorList = () => {
 
     const handleDelete = async (id) => {
         const result = await Swal.fire({
-            title: "Delete Author?",
+            title: "Delete Author and associated Books?",
             text: "This action cannot be undone",
             icon: "warning",
             showCancelButton: true,
