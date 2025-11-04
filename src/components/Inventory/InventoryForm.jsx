@@ -16,29 +16,29 @@ const InventoryForm = () => {
     const { id } = useParams();
     const navigate = useNavigate();
 
-    const loadBooks = async () => {
-        try {
-            const res = await getAllBooks();
-            setBooks(res.data || []);
-        } catch (e) {
-            console.error("Error loading books:", e);
-            void Swal.fire("Error", "Failed to load books", "error");
-        }
-    };
-
     const loadInventory = async () => {
         try {
-            const res = await getInventory(id);
-            const data = res.data;
+            const response = await getInventory(id);
+            const data = response.data;
             setInventory({
                 totalCopies: data.totalCopies ?? "",
                 availableCopies: data.availableCopies ?? "",
                 minThreshold: data.minThreshold ?? "",
-                bookId: data.bookId ?? data.book?.id ?? "",
+                bookId: data.bookId ?? "",
             });
         } catch (e) {
             console.error("Error loading inventory:", e);
             void Swal.fire("Error", "Failed to load inventory data", "error");
+        }
+    };
+
+    const loadBooks = async () => {
+        try {
+            const response = await getAllBooks();
+            setBooks(response.data || []);
+        } catch (error) {
+            console.error("Error loading books:", error);
+            void Swal.fire("Error", "Failed to load books", "error");
         }
     };
 
@@ -101,7 +101,7 @@ const InventoryForm = () => {
                 await addInventory(payload);
                 void Swal.fire("Created", "Inventory created successfully", "success");
             }
-            navigate("/inventories");
+            navigate("/inventory");
         } catch (error) {
             console.error("Error saving inventory:", error);
             void Swal.fire("Error", "Failed to save inventory", "error");
@@ -122,9 +122,9 @@ const InventoryForm = () => {
                         required
                     >
                         <option value="">-- Select Book --</option>
-                        {books.map((b) => (
-                            <option key={b.id} value={b.id}>
-                                {b.title} {b.isbn ? `(${b.isbn})` : ""}
+                        {books.map((book) => (
+                            <option key={book.id} value={book.id}>
+                                {book.title} {book.isbn ? `(${book.isbn})` : ""}
                             </option>
                         ))}
                     </select>
@@ -178,7 +178,7 @@ const InventoryForm = () => {
                 <button
                     type="button"
                     className="btn btn-secondary"
-                    onClick={() => navigate("/inventories")}
+                    onClick={() => navigate("/inventory")}
                 >
                     Cancel
                 </button>

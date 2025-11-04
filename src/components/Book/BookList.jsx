@@ -58,7 +58,7 @@ const BookList = () => {
         <div className="container mt-4">
             <div className="d-flex justify-content-between align-items-center mb-3">
                 <h2>Book List</h2>
-                <button className="btn btn-primary" onClick={()=>addBook()}>Add Employee</button>
+                <button className="btn btn-primary" onClick={()=>addBook()}>Add Book</button>
             </div>
 
             <table className="table table-striped align-middle">
@@ -67,7 +67,7 @@ const BookList = () => {
                     <th>ID</th>
                     <th>Title</th>
                     <th>Subject</th>
-                    <th>Isbn</th>
+                    <th>ISBN</th>
                     <th>Publication Year</th>
                     <th>Author</th>
                     <th style={{width: "160px"}}>Actions</th>
@@ -91,7 +91,7 @@ const BookList = () => {
                     ))
                 ) : (
                     <tr>
-                        <td colSpan="5" className="text-center text-muted">No books found.</td>
+                        <td colSpan="7" className="text-center text-muted">No books found.</td>
                     </tr>
                 )}
                 </tbody>

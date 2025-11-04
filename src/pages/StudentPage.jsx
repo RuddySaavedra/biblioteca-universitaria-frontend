@@ -7,13 +7,11 @@ const StudentPage = () => {
     return (
         <Routes>
             {/* Lista de estudiantes */}
-            <Route path="/" element={<StudentList />} />
-
+            <Route index element={<StudentList />} />
             {/* Crear estudiante */}
-            <Route path="/add-student" element={<StudentForm />} />
-
+            <Route path="add" element={<StudentForm />} />
             {/* Editar estudiante */}
-            <Route path="/edit-student/:id" element={<StudentForm />} />
+            <Route path="edit/:id" element={<StudentForm />} />
         </Routes>
     );
 };
