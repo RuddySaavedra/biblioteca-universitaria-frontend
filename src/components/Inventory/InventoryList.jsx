@@ -9,15 +9,17 @@ const InventoryList = () => {
 
     const loadInventories = async () => {
         try {
-            const res = await getAllInventories();
-            setInventories(res.data || []);
+            const response = await getAllInventories();
+            setInventories(response.data || []);
         } catch (error) {
-            console.error("Error loading inventories:", error);
-            void Swal.fire("Error", "Failed to load inventories.", "error");
+            console.error("Error loading inventory:", error);
+            await Swal.fire("Error", "Failed to load inventory.", "error");
         }
     };
 
-    const addInventory = () => navigate("/inventories/add");
+    function addInventory()  {
+        navigate("/inventory/add");
+    }
 
     const performDelete = async (id) => {
         try {
@@ -79,26 +81,24 @@ const InventoryList = () => {
                 </thead>
                 <tbody>
                 {inventories.length > 0 ? (
-                    inventories.map((inv) => {
-                        const title = inv.bookTitle || inv.book?.title || "-";
-                        const isbn = inv.bookIsbn || inv.book?.isbn || "-";
+                    inventories.map((inventory) => {
                         return (
-                            <tr key={inv.id}>
-                                <td>{inv.id}</td>
-                                <td>{title}</td>
-                                <td>{isbn}</td>
+                            <tr key={inventory.id}>
+                                <td>{inventory.id}</td>
+                                <td>{inventory.bookTitle}</td>
+                                <td>{inventory.bookIsbn}</td>
                                 <td>
-                                    {inv.availableCopies} / {inv.totalCopies}
+                                    {inventory.availableCopies} / {inventory.totalCopies}
                                 </td>
-                                <td>{inv.minThreshold}</td>
-                                <td>{renderStatusBadge(inv.availableCopies, inv.minThreshold)}</td>
+                                <td>{inventory.minThreshold}</td>
+                                <td>{renderStatusBadge(inventory.availableCopies, inventory.minThreshold)}</td>
                                 <td>
-                                    <Link to={`/inventories/edit/${inv.id}`} className="btn btn-warning btn-sm me-2">
+                                    <Link to={`/inventory/edit/${inventory.id}`} className="btn btn-warning btn-sm me-2">
                                         Edit
                                     </Link>
                                     <button
                                         className="btn btn-danger btn-sm"
-                                        onClick={() => handleDelete(inv.id)}
+                                        onClick={() => handleDelete(inventory.id)}
                                     >
                                         Delete
                                     </button>

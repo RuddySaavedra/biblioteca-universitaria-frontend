@@ -13,6 +13,7 @@ const AuthorList = () => {
             setAuthors(response.data);
         } catch (error) {
             console.error("Error loading authors: ", error);
+            await Swal.fire("Error", "Failed to load authors.", "error");
         }
     };
 
@@ -27,10 +28,11 @@ const AuthorList = () => {
     const performDelete = async (id) => {
         try {
             await deleteAuthor(id);
-            void Swal.fire("Deleted!", "Author removed successfully", "success");
+            await Swal.fire("Deleted!", "Author removed successfully", "success");
+            await loadAuthors(); // Refresh the list after deletion
         } catch (error) {
             console.error("Error deleting authors: ", error);
-            void Swal.fire("Error", "Failed to delete the author.", "error");
+            await Swal.fire("Error", "Failed to delete the author.", "error");
         }
     }
 
@@ -70,19 +72,25 @@ const AuthorList = () => {
                 </tr>
                 </thead>
                 <tbody>
-                {authors.map((author) => (
-                    <tr key={author.id}>
-                        <td>{author.id}</td>
-                        <td>{author.firstName}</td>
-                        <td>{author.lastName}</td>
-                        <td>{author.address}</td>
-                        <td>{author.type}</td>
-                        <td>
-                            <button className="btn btn-warning btn-sm me-2" onClick={()=> editAuthor(author.id)}>Edit</button>
-                            <button className="btn btn-danger btn-sm" onClick={() => handleDelete(author.id)}>Delete</button>
-                        </td>
+                {authors.length > 0 ? (
+                    authors.map((author) => (
+                        <tr key={author.id}>
+                            <td>{author.id}</td>
+                            <td>{author.firstName}</td>
+                            <td>{author.lastName}</td>
+                            <td>{author.address}</td>
+                            <td>{author.type}</td>
+                            <td>
+                                <button className="btn btn-warning btn-sm me-2" onClick={()=> editAuthor(author.id)}>Edit</button>
+                                <button className="btn btn-danger btn-sm" onClick={() => handleDelete(author.id)}>Delete</button>
+                            </td>
+                        </tr>
+                    ))
+                ) : (
+                    <tr>
+                        <td colSpan="6" className="text-center">No authors found.</td>
                     </tr>
-                ))}
+                )}
                 </tbody>
             </table>
         </div>

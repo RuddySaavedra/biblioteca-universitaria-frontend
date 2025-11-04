@@ -46,6 +46,26 @@ function App() {
                                     }
                                 />
 
+                                {/* Authors */}
+                                <Route
+                                    path="authors/*"
+                                    element={
+                                        <PrivateRoute>
+                                            <AuthorPage />
+                                        </PrivateRoute>
+                                    }
+                                />
+
+                                {/* Students */}
+                                <Route
+                                    path="students/*"
+                                    element={
+                                        <PrivateRoute>
+                                            <StudentPage />
+                                        </PrivateRoute>
+                                    }
+                                />
+
                                 {/* Loans */}
                                 <Route
                                     path="loans/*"
@@ -62,26 +82,6 @@ function App() {
                                     element={
                                         <PrivateRoute>
                                             <InventoryPage />
-                                        </PrivateRoute>
-                                    }
-                                />
-                                 
-                                {/* Authors */}
-                                <Route
-                                    path="authors/*"
-                                    element={
-                                        <PrivateRoute>
-                                            <AuthorPage />
-                                        </PrivateRoute>
-                                    }
-                                />
-                                      
-                                {/* Students */}
-                                <Route
-                                    path="students/*"
-                                    element={
-                                        <PrivateRoute>
-                                            <StudentPage />
                                         </PrivateRoute>
                                     }
                                 />

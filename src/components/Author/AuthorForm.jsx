@@ -31,7 +31,7 @@ const AuthorForm = () => {
         setAuthor({ ...author, [name]: value });
     }
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
         const payload = {
@@ -44,11 +44,11 @@ const AuthorForm = () => {
 
         try {
             if (id) {
-                updateAuthor(id, payload);
-                void Swal.fire("Updated", "Author updated successfully", "success");
+                await updateAuthor(id, payload);
+                await Swal.fire("Updated", "Author updated successfully", "success");
             } else {
-                addAuthor(payload);
-                void Swal.fire("Created", "Author created successfully", "success");
+                await addAuthor(payload);
+                await Swal.fire("Created", "Author created successfully", "success");
             }
             navigate("/authors");
         } catch (error) {
@@ -64,6 +64,7 @@ const AuthorForm = () => {
                     <label>First Name</label>
                     <input
                         type="text"
+                        name="firstName"
                         className="form-control"
                         value={author.firstName}
                         onChange={handleChange}
@@ -74,6 +75,7 @@ const AuthorForm = () => {
                     <label>Last Name</label>
                     <input
                         type="text"
+                        name="lastName"
                         className="form-control"
                         value={author.lastName}
                         onChange={handleChange}
@@ -84,6 +86,7 @@ const AuthorForm = () => {
                     <label>Address</label>
                     <input
                         type="text"
+                        name="address"
                         className="form-control"
                         value={author.address}
                         onChange={handleChange}
@@ -92,13 +95,18 @@ const AuthorForm = () => {
                 </div>
                 <div className="mb-3">
                     <label>Type</label>
-                    <input
-                        type="text"
+                    <select
+                        name="type"
                         className="form-control"
                         value={author.type}
                         onChange={handleChange}
                         required
-                    />
+                    >
+                        <option value="">-- Select Type --</option>
+                        <option value="A">A</option>
+                        <option value="B">B</option>
+                        <option value="C">C</option>
+                    </select>
                 </div>
                 <button type="submit" className="btn btn-success me-2">Save</button>
                 <button
