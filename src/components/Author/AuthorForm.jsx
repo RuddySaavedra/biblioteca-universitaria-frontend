@@ -1,15 +1,17 @@
 import {useEffect, useState} from "react";
 import {useNavigate, useParams} from "react-router-dom";
 import {addAuthor, getAuthor, updateAuthor} from "../../services/AuthorService.js";
+import {getAllAddresses} from "../../services/AddressService.js";
 import Swal from "sweetalert2";
 
 const AuthorForm = () => {
     const [author, setAuthor] = useState({
         firstName: "",
         lastName: "",
-        address: "",
         type: "",
+        addressId: "",
     });
+    const [addresses, setAddresses] = useState([]);
     const {id} = useParams();
     const navigate = useNavigate();
 
@@ -22,9 +24,19 @@ const AuthorForm = () => {
         }
     };
 
+    const loadAddresses = async () => {
+        try {
+            const res = await getAllAddresses();
+            setAddresses(res.data || []);
+        } catch (error) {
+            console.error("Error loading addresses: ", error);
+        }
+    };
+
     useEffect(() => {
-        if (id) loadAuthor();
-    }, [id])
+        void loadAddresses();
+        if (id) void loadAuthor();
+    }, [id]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -38,23 +50,32 @@ const AuthorForm = () => {
             id: author.id,
             firstName: author.firstName,
             lastName: author.lastName,
-            address: author.address,
             type: author.type,
+            addressId: author.addressId ? Number(author.addressId) : null,
         }
 
         try {
             if (id) {
                 await updateAuthor(id, payload);
-                await Swal.fire("Updated", "Author updated successfully", "success");
+                void Swal.fire("Updated", "Author updated successfully", "success");
             } else {
                 await addAuthor(payload);
-                await Swal.fire("Created", "Author created successfully", "success");
+                void Swal.fire("Created", "Author created successfully", "success");
             }
             navigate("/authors");
         } catch (error) {
             console.log("Error saving author:", error);
+            const backendMessage = error.response?.data?.message || error.message;
+            void Swal.fire("Error", String(backendMessage), "error");
         }
     };
+
+    // Mostrar sólo direcciones no asignadas o la propia cuando editando
+    const selectableAddresses = addresses.filter((a) => {
+        if (!a.authorId) return true;
+        if (id && Number(a.authorId) === Number(id)) return true;
+        return false;
+    });
 
     return (
         <div className="container mt-4">
@@ -83,17 +104,6 @@ const AuthorForm = () => {
                     />
                 </div>
                 <div className="mb-3">
-                    <label>Address</label>
-                    <input
-                        type="text"
-                        name="address"
-                        className="form-control"
-                        value={author.address}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div className="mb-3">
                     <label>Type</label>
                     <select
                         name="type"
@@ -108,14 +118,31 @@ const AuthorForm = () => {
                         <option value="C">C</option>
                     </select>
                 </div>
+
+                <div className="mb-3">
+                    <label>Address</label>
+                    <select
+                        name="addressId"
+                        className="form-control"
+                        value={author.addressId ?? ""}
+                        onChange={handleChange}
+                        required
+                    >
+                        <option value="">-- No Address --</option>
+                        {selectableAddresses.map((a) => (
+                            <option key={a.id} value={a.id}>
+                                {a.street || "-"} {a.condominium ? `(${a.condominium})` : ""}
+                                {a.authorId ? " — assigned" : ""}
+                            </option>
+                        ))}
+                    </select>
+                    <div className="form-text">
+                        * Relación 1:1. Si el author seleccionado ya tiene una dirección, el backend o la lógica de actualización se encargará de ajustar la relación.
+                    </div>
+                </div>
+
                 <button type="submit" className="btn btn-success me-2">Save</button>
-                <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={()=> navigate("/authors")}
-                >
-                    Cancel
-                </button>
+                <button type="button" className="btn btn-secondary" onClick={()=> navigate("/authors")}>Cancel</button>
             </form>
         </div>
     );

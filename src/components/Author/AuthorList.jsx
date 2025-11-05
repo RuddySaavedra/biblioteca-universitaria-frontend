@@ -1,3 +1,4 @@
+// File: `src/components/Author/AuthorList.jsx` (modificado)
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {deleteAuthor, getAllAuthors} from "../../services/AuthorService.js";
@@ -13,7 +14,7 @@ const AuthorList = () => {
             setAuthors(response.data);
         } catch (error) {
             console.error("Error loading authors: ", error);
-            await Swal.fire("Error", "Failed to load authors.", "error");
+            void Swal.fire("Error", "Failed to load authors.", "error");
         }
     };
 
@@ -28,17 +29,17 @@ const AuthorList = () => {
     const performDelete = async (id) => {
         try {
             await deleteAuthor(id);
-            await Swal.fire("Deleted!", "Author removed successfully", "success");
-            await loadAuthors(); // Refresh the list after deletion
+            void Swal.fire("Deleted!", "Author removed successfully", "success");
+            await loadAuthors(); // Refresh
         } catch (error) {
             console.error("Error deleting authors: ", error);
-            await Swal.fire("Error", "Failed to delete the author.", "error");
+            void Swal.fire("Error", "Failed to delete the author.", "error");
         }
     }
 
     const handleDelete = async (id) => {
         const result = await Swal.fire({
-            title: "Delete Author and associated Books?",
+            title: "Delete Author and associated relations?",
             text: "This action cannot be undone",
             icon: "warning",
             showCancelButton: true,
@@ -66,8 +67,8 @@ const AuthorList = () => {
                     <th>ID</th>
                     <th>FirstName</th>
                     <th>LastName</th>
-                    <th>Address</th>
                     <th>Type</th>
+                    <th>Address</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -78,8 +79,8 @@ const AuthorList = () => {
                             <td>{author.id}</td>
                             <td>{author.firstName}</td>
                             <td>{author.lastName}</td>
-                            <td>{author.address}</td>
                             <td>{author.type}</td>
+                            <td>{author.addressId}</td>
                             <td>
                                 <button className="btn btn-warning btn-sm me-2" onClick={()=> editAuthor(author.id)}>Edit</button>
                                 <button className="btn btn-danger btn-sm" onClick={() => handleDelete(author.id)}>Delete</button>

@@ -13,6 +13,7 @@ import InventoryPage from "./pages/InventoryPage.jsx";
 import AuthorPage from "./pages/AuthorPage.jsx";
 import StudentPage from "./pages/StudentPage.jsx";
 import BookReturnPage from "./pages/BookReturnPage.jsx";
+import AddressPage from "./pages/AddressPage.jsx";
 
 
 function App() {
@@ -93,6 +94,15 @@ function App() {
                                     element={
                                         <PrivateRoute>
                                             <BookReturnPage returnBook={true} />
+                                        </PrivateRoute>
+                                    }
+                                />
+                                {/*Addresses */}
+                                <Route
+                                    path="addresses/*"
+                                    element={
+                                        <PrivateRoute>
+                                            <AddressPage />
                                         </PrivateRoute>
                                     }
                                 />

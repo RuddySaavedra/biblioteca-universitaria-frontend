@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
-import { BookOpen, Feather, LucideGraduationCap, LucidePackageSearch, Repeat, Repeat2 } from "lucide-react";
+import {BookOpen, Feather, Locate, LucideGraduationCap, LucidePackageSearch, Repeat, Repeat2} from "lucide-react";
 
 const Home = () => {
     const { theme } = useTheme();
@@ -49,7 +49,14 @@ const Home = () => {
             icon: <Repeat2 size={32} />,
             path: "/book-returns",
             color: "secondary",
-        }
+        },
+        {
+            title: "Addresses",
+            description: "Handle author addresses.",
+            icon: <Locate size={32} />,
+            path: "/addresses",
+            color: "danger",
+        },
     ];
 
     return (
