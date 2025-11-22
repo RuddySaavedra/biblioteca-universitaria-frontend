@@ -57,6 +57,13 @@ const Home = () => {
             path: "/addresses",
             color: "danger",
         },
+        {
+            title: "Book Copies",
+            description: "Handle book copies.",
+            icon: <BookOpen size={32} />,
+            path: "/book-copies",
+            color: "secondary",
+        }
     ];
 
     return (

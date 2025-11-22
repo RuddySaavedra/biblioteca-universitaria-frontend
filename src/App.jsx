@@ -14,6 +14,7 @@ import AuthorPage from "./pages/AuthorPage.jsx";
 import StudentPage from "./pages/StudentPage.jsx";
 import BookReturnPage from "./pages/BookReturnPage.jsx";
 import AddressPage from "./pages/AddressPage.jsx";
+import BookCopyPage from "./pages/BookCopyPage.jsx";
 
 
 function App() {
@@ -106,6 +107,15 @@ function App() {
                                         </PrivateRoute>
                                     }
                                 />
+                                <Route
+                                    path="book-copies/*"
+                                    element={
+                                        <PrivateRoute>
+                                            <BookCopyPage />
+                                        </PrivateRoute>
+                                    }
+                                />
+
                                 {/* Redirect unknown paths to home */}
                                 <Route path="*" element={<Navigate to="/" replace />} />
                             </Route>

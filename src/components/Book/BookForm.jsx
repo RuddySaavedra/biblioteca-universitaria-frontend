@@ -3,6 +3,7 @@ import {useNavigate, useParams} from "react-router-dom";
 import Swal from "sweetalert2";
 import {addBook, getBook, updateBook} from "../../services/BookService.js";
 import {getAllAuthors} from "../../services/AuthorService.js";
+import {getAllBookCopies} from "../../services/BookCopyService.js";
 
 const BookForm = () => {
     const [book, setBook] = useState({
@@ -11,7 +12,9 @@ const BookForm = () => {
         isbn: "",
         publicationYear: "",
         authorId: "",
+        copyId: "",
     });
+    const [bookCopies, setBookCopies] = useState([]);
     const [authors, setAuthors] = useState([]);
     const {id} = useParams();
     const navigate = useNavigate();
@@ -26,12 +29,23 @@ const BookForm = () => {
                 isbn: data.isbn,
                 publicationYear: data.publicationYear,
                 authorId: data.authorId,
+                copyId: data.copyId,
             });
         } catch (error) {
             console.log("Error loading book:", error);
             void Swal.fire("Error", "Failed to load book data", "error");
         }
     }
+
+    const loadBookCopies = async () => {
+        try {
+            const res = await getAllBookCopies();
+            setBookCopies(res.data || []);
+        } catch (error) {
+            console.error("Error loading bookCopies:", error);
+            void Swal.fire("Error", "Failed to load bookCopies.", "error");
+        }
+    };
 
     const loadAuthors = async () => {
         try {
@@ -45,6 +59,7 @@ const BookForm = () => {
 
     // Load all dropdown data (authors)
     useEffect(() => {
+        void loadBookCopies();
         void loadAuthors();
         if (id) void loadBook();
     }, [id]);
@@ -64,6 +79,7 @@ const BookForm = () => {
             isbn: book.isbn,
             publicationYear: Number(book.publicationYear),
             authorId: Number(book.authorId),
+            copyId: Number(book.copyId),
         }
 
         try {
@@ -145,6 +161,26 @@ const BookForm = () => {
                             </option>
                         ))}
                     </select>
+                </div>
+                <div className="mb-3">
+                    <label>Copy</label>
+                    <select
+                        name="copyId"
+                        className="form-control"
+                        value={book.copyId ?? ""}
+                        onChange={handleChange}
+                        required
+                    >
+                        <option value="">-- No Address --</option>
+                        {bookCopies.map((b) => (
+                            <option key={b.id} value={b.id}>
+                                {b.title || "-"}
+                            </option>
+                        ))}
+                    </select>
+                    <div className="form-text">
+                        * Relación 1:1. Si el book seleccionado ya tiene una copy, el backend o la lógica de actualización se encargará de ajustar la relación.
+                    </div>
                 </div>
                 <button type="submit" className="btn btn-success me-2">
                     Save

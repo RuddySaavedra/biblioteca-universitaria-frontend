@@ -75,6 +75,11 @@ const Header = () => {
                                 </Link>
                             </li>
                             <li className="nav-item">
+                                <Link className="nav-link" to="/book-copies">
+                                    Book Copies
+                                </Link>
+                            </li>
+                            <li className="nav-item">
                                 <button
                                     className="btn btn-outline-primary ms-3"
                                     onClick={handleLogout}

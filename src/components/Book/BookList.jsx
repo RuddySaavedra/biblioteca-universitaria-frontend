@@ -70,6 +70,7 @@ const BookList = () => {
                     <th>ISBN</th>
                     <th>Publication Year</th>
                     <th>Author</th>
+                    <th>Copy</th>
                     <th style={{width: "160px"}}>Actions</th>
                 </tr>
                 </thead>
@@ -83,6 +84,7 @@ const BookList = () => {
                             <td>{book.isbn}</td>
                             <td>{book.publicationYear}</td>
                             <td>{book.authorFullName || "-"}</td>
+                            <td>{book.copyTitle || "-"}</td>
                             <td>
                                 <Link to={`/books/edit/${book.id}`} className="btn btn-warning btn-sm me-2">Edit</Link>
                                 <button className="btn btn-danger btn-sm" onClick={()=>handleDelete(book.id)}>Delete</button>
@@ -91,7 +93,7 @@ const BookList = () => {
                     ))
                 ) : (
                     <tr>
-                        <td colSpan="7" className="text-center text-muted">No books found.</td>
+                        <td colSpan="8" className="text-center text-muted">No books found.</td>
                     </tr>
                 )}
                 </tbody>
