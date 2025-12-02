@@ -1,25 +1,24 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../context/useAuth";
 
 /**
- * PrivateRoute — Protege rutas internas del sistema.
- * Si no hay usuario autenticado, redirige a /login.
- * Cuando JWT esté implementado, leerá el token desde localStorage.
+ * PrivateRoute — Protege rutas internas del sistema usando JWT a través de AuthContext.
  */
 
 const PrivateRoute = ({ children }) => {
-    const { isAuthenticated } = useAuth();
+  const { isAuthenticated, loading } = useAuth();
 
-    // Simulación inicial: si no hay token, se redirige a login.
-    const token = localStorage.getItem("token");
-    const isLoggedIn = isAuthenticated || !!token;
+  if (loading) {
+    // podrías mostrar un spinner o pantalla de carga aquí
+    return null;
+  }
 
-    if (!isLoggedIn) {
-        return <Navigate to="/login" replace />;
-    }
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
+  }
 
-    return children;
+  return children;
 };
 
 export default PrivateRoute;

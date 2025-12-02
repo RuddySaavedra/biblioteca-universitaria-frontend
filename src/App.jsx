@@ -15,6 +15,7 @@ import StudentPage from "./pages/StudentPage.jsx";
 import BookReturnPage from "./pages/BookReturnPage.jsx";
 import AddressPage from "./pages/AddressPage.jsx";
 import BookCopyPage from "./pages/BookCopyPage.jsx";
+import RegisterPage from "./components/Auth/RegisterPage.jsx";
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
                         <Routes>
                             {/* 🔓 Public route (Login) */}
                             <Route path="/login" element={<LoginPage />} />
+                            <Route path="/register" element={<RegisterPage />} />
 
                             {/* 🔐 Private routes under MainLayout */}
                             <Route element={<MainLayout />}>

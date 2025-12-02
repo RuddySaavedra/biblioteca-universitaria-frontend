@@ -1,59 +1,115 @@
-import React, { createContext, useContext, useState, useEffect, useMemo } from "react";
+import React, {
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { AuthService } from "../services/AuthService";
+import { AuthContext } from "./AuthContextBase";
 
 /**
- * AuthContext — Controla la autenticación global del sistema.
- * Compatible con Vite y listo para integrar JWT.
+ * AuthProvider — Proveedor del contexto de autenticación global.
  */
 
-const AuthContext = createContext(undefined);
+function AuthProviderComponent({ children }) {
+  const [auth, setAuth] = useState(() => AuthService.getAuth()); // AuthenticationResponse o null
+  const [user, setUser] = useState(null); // UserResponse
+  const [loading, setLoading] = useState(true);
 
-function AuthProvider({ children }) {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [user, setUser] = useState(null);
-
-    // 🔹 Verificar token en localStorage al iniciar la app
-    useEffect(() => {
-        const token = localStorage.getItem("token");
-        if (token) {
-            setIsAuthenticated(true);
-            setUser({ username: "demoUser" }); // Placeholder temporal
+  // Cargar usuario autenticado al montar la app
+  useEffect(() => {
+    // envolver la lógica async para no retornar directamente una promesa
+    const init = () => {
+      (async () => {
+        const current = AuthService.getAuth();
+        if (!current?.token) {
+          setLoading(false);
+          return;
         }
-    }, []);
 
-    // 🔐 Simulación de inicio de sesión (reemplazar con API JWT)
-    const login = async (username, password) => {
-        if (username === "admin" && password === "admin") {
-            const fakeToken = "demo-token-12345";
-            localStorage.setItem("token", fakeToken);
-            setIsAuthenticated(true);
-            setUser({ username });
-            return true;
+        try {
+          const me = await AuthService.me();
+          if (me) {
+            setUser(me);
+            setAuth(current);
+          } else {
+            // si /me falla, podría intentarse un refresh de token
+            try {
+              const refreshed = await AuthService.refreshToken();
+              if (refreshed?.token) {
+                const me2 = await AuthService.me();
+                setUser(me2 || null);
+                setAuth(AuthService.getAuth());
+              } else {
+                handleLogout();
+              }
+            } catch (e) {
+              console.error("Error refrescando token", e);
+              handleLogout();
+            }
+          }
+        } catch (e) {
+          console.error("Error inicializando autenticación", e);
+          handleLogout();
+        } finally {
+          setLoading(false);
         }
-        return false;
+      })();
     };
 
-    // 🚪 Cerrar sesión
-    const logout = () => {
-        localStorage.removeItem("token");
-        setIsAuthenticated(false);
-        setUser(null);
-    };
+    init();
+  }, []);
 
-    // 🧠 useMemo previene recrear funciones innecesariamente
-    const value = useMemo(
-        () => ({ isAuthenticated, user, login, logout }),
-        [isAuthenticated, user]
-    );
+  const handleLogin = async (email, password) => {
+    await AuthService.login(email, password); // AuthenticationRequest
+    setAuth(AuthService.getAuth());
 
-    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-}
-
-function useAuth() {
-    const context = useContext(AuthContext);
-    if (context === undefined) {
-        throw new Error("useAuth must be used within an AuthProvider");
+    try {
+      const me = await AuthService.me(); // UserResponse
+      setUser(me || null);
+    } catch (e) {
+      console.error("Error obteniendo usuario autenticado tras login", e);
     }
-    return context;
+
+    return true;
+  };
+
+  const handleRegister = async (payload) => {
+    // payload: { firstName, lastName, email, password } (RegisterRequest)
+    await AuthService.register(payload);
+    setAuth(AuthService.getAuth());
+
+    try {
+      const me = await AuthService.me();
+      setUser(me || null);
+    } catch (e) {
+      console.error("Error obteniendo usuario autenticado tras registro", e);
+    }
+
+    return true;
+  };
+
+  const handleLogout = () => {
+    AuthService.logout();
+    setAuth(null);
+    setUser(null);
+  };
+
+  const value = useMemo(
+    () => ({
+      auth, // AuthenticationResponse: { token, refreshToken, userId, email, firstName, lastName, role }
+      user, // UserResponse: { id, username, email, role }
+      isAuthenticated: !!auth?.token,
+      loading,
+      login: handleLogin,
+      register: handleRegister,
+      logout: handleLogout,
+    }),
+    [auth, user, loading]
+  );
+
+  return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
 }
 
-export { AuthProvider, useAuth };
+export function AuthProvider(props) {
+  return <AuthProviderComponent {...props} />;
+}

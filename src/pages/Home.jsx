@@ -1,11 +1,15 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useTheme } from "../context/ThemeContext";
-import {BookOpen, Feather, Locate, LucideGraduationCap, LucidePackageSearch, Repeat, Repeat2} from "lucide-react";
+import { useAuth } from "../context/useAuth";
+import { BookOpen, Feather, Locate, LucideGraduationCap, LucidePackageSearch, Repeat, Repeat2 } from "lucide-react";
 
 const Home = () => {
     const { theme } = useTheme();
     const navigate = useNavigate();
+    const { user } = useAuth();
+
+    const displayName = user?.username || user?.email || "User";
 
     const modules = [
         {
@@ -72,8 +76,12 @@ const Home = () => {
                 theme === "dark" ? "text-light" : "text-dark"
             }`}
         >
-            {/* Título */}
-            <h1 className="fw-bold mb-3">Welcome to the Library Management System</h1>
+            {/* Título personalizado */}
+            <h1 className="fw-bold mb-3">
+                Welcome,
+                {" "}
+                <span className="text-primary">{displayName}</span>
+            </h1>
             <p className="lead mb-5">
                 Streamline library operations, book tracking, and student management.
             </p>
