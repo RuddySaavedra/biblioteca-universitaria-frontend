@@ -3,7 +3,6 @@ import { AuthService } from "./AuthService";
 
 // Base URL del backend (ajusta si es distinto)
 const BASE_URL = "http://localhost:8080";
-
 // Instancia principal de axios para toda la app
 export const apiClient = axios.create({
   baseURL: BASE_URL,
